@@ -5,5 +5,5 @@ authors = ["Tom McKernan <tmeaglei@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-rand = "0.6.4"
-clap = "2.32.0"
+rand = "~0.6.4"
+clap = "~2.32.0"
