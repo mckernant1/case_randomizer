@@ -1,5 +1,5 @@
 name: cAsE rAnDoMiZeR
-version: 0.1.0
+version: 0.1.1
 author: Tom McKernan <tmeaglei@gmail.com>
 about: A cat clone that randomized case
 args:
@@ -14,3 +14,7 @@ args:
       long: alt
       help: Forces the string to alternate case
       takes_value: false
+  - FILES:
+      help: Specify input files
+      required: false
+      multiple: true

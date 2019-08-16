@@ -7,6 +7,7 @@ use rand::Rng;
 use std::io::Read;
 use clap::App;
 use clap::Arg;
+use std::fs::File;
 
 fn main() -> std::io::Result<()> {
     let yaml = load_yaml!("cli.yml");
@@ -31,22 +32,42 @@ fn main() -> std::io::Result<()> {
         }
     }
 
+    if matches.is_present("FILES") {
+        let file_list: Vec<_> = matches.values_of("FILES").unwrap().collect();
+        read_from_file(freq_val, alt, file_list)
+    } else {
+        read_from_stdin(freq_val, alt)
+    }
 
+    println!();
+    Ok(())
+}
+
+fn read_from_file(freq_val: f64, alt: bool, file_list: Vec<&str>) {
+    for file in file_list {
+        let mut buf = String::new();
+        File::open(file).unwrap().read_to_string(&mut buf).unwrap();
+        print_string(buf, freq_val, alt)
+    }
+}
+
+fn read_from_stdin(freq_val: f64, alt: bool) {
     loop {
         let mut buf = String::new();
-        let bytes = std::io::stdin().read_line(&mut buf)?;
+        let bytes = std::io::stdin().read_line(&mut buf).unwrap();
         if bytes == 0 {
             break;
         }
-        if alt {
-            print!("{}", alternate_case(buf))
-        } else {
-            print!("{}", randomize_case(buf, freq_val));
-        }
+        print_string(buf, freq_val, alt)
     }
-    
-    println!();
-    Ok(())
+}
+
+fn print_string(buf: String, freq_val: f64, alt: bool){
+    if alt {
+        print!("{}", alternate_case(buf))
+    } else {
+        print!("{}", randomize_case(buf, freq_val));
+    }
 }
 
 fn randomize_case(s: String, freq: f64) -> String {
