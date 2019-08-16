@@ -1,4 +1,6 @@
 extern crate rand;
+
+#[macro_use]
 extern crate clap;
 
 use rand::Rng;
@@ -7,23 +9,8 @@ use clap::App;
 use clap::Arg;
 
 fn main() -> std::io::Result<()> {
-    let matches = App::new("cAsE rAnDoMiZeR")
-        .version("0.1")
-        .author("Tom M. tmeaglei@gmail.com")
-        .about("\
-        \nRandomizes the case of the input string from standard in\
-        \nStrings are automatically given lower case")
-        .arg(Arg::with_name("frequency")
-            .short("f")
-            .long("frequency")
-            .value_name("float between 0 and 1")
-            .help("sets the frequency of capital letters")
-            .takes_value(true))
-        .arg(Arg::with_name("alternate")
-            .short("a")
-            .long("alternate")
-            .help("non-random alternation starting with the first letter lowercase")
-            .takes_value(false))
+    let yaml = load_yaml!("cli.yml");
+    let matches = App::from_yaml(yaml)
         .get_matches();
 
     let freq_is_present = matches.is_present("frequency");
@@ -44,14 +31,20 @@ fn main() -> std::io::Result<()> {
         }
     }
 
-    let mut buf = String::new();
-    std::io::stdin().read_to_string(&mut buf)?;
-    if alt {
-        print!("{}", alternate_case(buf))
-    } else {
-        print!("{}", randomize_case(buf, freq_val));
-    }
 
+    loop {
+        let mut buf = String::new();
+        let bytes = std::io::stdin().read_line(&mut buf)?;
+        if bytes == 0 {
+            break;
+        }
+        if alt {
+            print!("{}", alternate_case(buf))
+        } else {
+            print!("{}", randomize_case(buf, freq_val));
+        }
+    }
+    
     println!();
     Ok(())
 }

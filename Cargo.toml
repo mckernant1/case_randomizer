@@ -6,4 +6,4 @@ edition = "2018"
 
 [dependencies]
 rand = "~0.6.4"
-clap = "~2.32.0"
+clap = {version = "~2.33.0", features = ["yaml"]}
