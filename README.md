@@ -6,4 +6,4 @@ Takes input from standard in and randomizes the case of the letters and then pri
 ### Options
 Change the frequency of capital letters: -f --frequency [float between 0 and 1]
 <br>
-Make the string alternate between captal and lowercase: -a --alternate 
+Make the string alternate between capital and lowercase: -a --alternate 
