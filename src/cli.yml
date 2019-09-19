@@ -1,0 +1,20 @@
+name: cAsE rAnDoMiZeR
+version: 0.1.1
+author: Tom McKernan <tmeaglei@gmail.com>
+about: A cat clone that randomized case
+args:
+  - frequency:
+      short: f
+      long: freq
+      value_name: FLOAT
+      help: Takes a float between 0 and 1
+      takes_value: true
+  - alternate:
+      short: a
+      long: alt
+      help: Forces the string to alternate case
+      takes_value: false
+  - FILES:
+      help: Specify input files
+      required: false
+      multiple: true
